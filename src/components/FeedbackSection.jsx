@@ -2,16 +2,20 @@ import Button from "./Button/Button";
 import { useState } from "react";
 
 export default function FeedbackSection() {
-  const [name, setName] = useState("");
-  const [reason, setReason] = useState("help");
+  const [form, setForm] = useState({
+    name: " ",
+    hasError: false,
+    reason: "help",
+  });
 
   function handelNameChange(event) {
-    setName(event.target.value);
+    setForm((prew) => ({
+      ...prew,
+      name: event.target.value,
+      hasError: event.target.value.trim().length === 0,
+    }));
   }
 
-  function handelReasonChange(event) {
-    setReason(event.target.value);
-  }
   return (
     <section>
       <h3>Обратная связь</h3>
@@ -21,9 +25,9 @@ export default function FeedbackSection() {
           type="text"
           id="name"
           className="controle"
-          value={name}
+          value={form.name}
           style={{
-            border: name.trim().length ? null : "1px solid red",
+            border: form.name.trim().length ? null : "1px solid red",
           }}
           onChange={handelNameChange}
         />
@@ -31,19 +35,23 @@ export default function FeedbackSection() {
         <select
           id="reason"
           className="controle"
-          value={reason}
-          onChange={handelReasonChange}
+          value={form.reason}
+          onChange={(event) =>
+            setForm((prew) => ({ ...prew, reason: event.target.value }))
+          }
         >
           <option value="error">Ошибка</option>
           <option value="help">Нужна помощь</option>
           <option value="suggest">Предложения</option>
         </select>
         <pre>
-          Name: {name}
+          Name: {form.name}
           <br />
-          Reason: {reason}
+          Reason: {form.reason}
         </pre>
-        <Button>Отправить</Button>
+        <Button disabled={form.hasError} isActive={!form.hasError}>
+          Отправить
+        </Button>
       </form>
     </section>
   );
