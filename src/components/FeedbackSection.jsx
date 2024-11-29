@@ -1,6 +1,21 @@
 import Button from "./Button/Button";
 import { useState } from "react";
 
+function StateVsRef() {
+  const [value, setValue] = useState(" ");
+  return (
+    <div>
+      <h3>Input value: {value}</h3>
+      <input
+        type="text"
+        value={value}
+        onChange={(e) => setValue(e.target.value)}
+        className="control"
+      />
+    </div>
+  );
+}
+
 export default function FeedbackSection() {
   const [form, setForm] = useState({
     name: " ",
@@ -19,12 +34,12 @@ export default function FeedbackSection() {
   return (
     <section>
       <h3>Обратная связь</h3>
-      <form>
+      <form style={{ marginBottom: "1rem" }}>
         <label htmlFor="name">Ваше имя</label>
         <input
           type="text"
           id="name"
-          className="controle"
+          className="control"
           value={form.name}
           style={{
             border: form.name.trim().length ? null : "1px solid red",
@@ -34,7 +49,7 @@ export default function FeedbackSection() {
         <label htmlFor="reason">Причина обращения</label>
         <select
           id="reason"
-          className="controle"
+          className="control"
           value={form.reason}
           onChange={(event) =>
             setForm((prew) => ({ ...prew, reason: event.target.value }))
@@ -53,6 +68,7 @@ export default function FeedbackSection() {
           Отправить
         </Button>
       </form>
+      <StateVsRef />
     </section>
   );
 }
