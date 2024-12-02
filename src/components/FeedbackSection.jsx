@@ -1,15 +1,23 @@
 import Button from "./Button/Button";
-import { useState } from "react";
+import { useState, useRef} from "react";
 
 function StateVsRef() {
-  const [value, setValue] = useState(" ");
+  const input = useRef()
+  const [show, setShow] = useState(false)
+
+function handelKeyDown(event){
+  if (event.key === 'Enter'){
+    setShow(true)
+  }
+}
+
   return (
     <div>
-      <h3>Input value: {value}</h3>
+      <h3>Input value: {show && input.current.value }</h3>
       <input
+      ref={input}
+        onKeyDown={handelKeyDown}
         type="text"
-        value={value}
-        onChange={(e) => setValue(e.target.value)}
         className="control"
       />
     </div>
@@ -42,7 +50,7 @@ export default function FeedbackSection() {
           className="control"
           value={form.name}
           style={{
-            border: form.name.trim().length ? null : "1px solid red",
+            border: form.hasError ? "1px solid red" : null,
           }}
           onChange={handelNameChange}
         />
