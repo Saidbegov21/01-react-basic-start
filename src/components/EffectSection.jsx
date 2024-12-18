@@ -33,7 +33,7 @@ export default function EffectSection(){
 
             {loading && <p>Loading....</p>}
             {!loading && <ul>
-                {users.map(user => <li key={user.id}>{user.name}</li>)}
+                {users.map(user => <li key={user.id}>{user.address.geo.lat}</li>)}
             </ul>}
         </section>
     )
